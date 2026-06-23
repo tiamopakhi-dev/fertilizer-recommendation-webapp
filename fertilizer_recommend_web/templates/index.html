@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Recommendation</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}?v=3">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <div class="header">
+                <h1>Fertilizer Recommendation System</h1>
+                <p>Please fill in the following information to get personalized fertilizer recommendations.</p>
+            </div>
+            
+            <form id="assessmentForm" class="assessment-form">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <!-- Potassium -->
+                    <div class="form-group">
+                        <label for="potassium" class="form-label">Potassium (mg/kg)</label>
+                        <input type="number" id="potassium" name="potassium" step="0.1" required>
+                    </div>
+
+                    <!-- Phosphorus -->
+                    <div class="form-group">
+                        <label for="phosphorus" class="form-label">Phosphorus (mg/kg)</label>
+                        <input type="number" id="phosphorus" name="phosphorus" step="0.1" required>
+                    </div>
+
+                    <!-- Nitrogen -->
+                    <div class="form-group">
+                        <label for="nitrogen" class="form-label">Nitrogen (mg/kg)</label>
+                        <input type="number" id="nitrogen" name="nitrogen" step="0.1" required>
+                    </div>
+
+                    <!-- Rainfall -->
+                    <div class="form-group">
+                        <label for="rainfall" class="form-label">Rainfall (mm)</label>
+                        <input type="number" id="rainfall" name="rainfall" step="0.01" required>
+                    </div>
+
+                    <!-- pH -->
+                    <div class="form-group">
+                        <label for="ph" class="form-label">pH Level</label>
+                        <input type="number" id="ph" name="ph" step="0.01" min="0" max="14" required>
+                    </div>
+
+                    <!-- Temperature -->
+                    <div class="form-group">
+                        <label for="temperature" class="form-label">Temperature (°C)</label>
+                        <input type="number" id="temperature" name="temperature" step="0.1" required>
+                    </div>
+
+                    <!-- Previous Harvested Crop -->
+                    <div class="form-group">
+                        <label for="crop" class="form-label">Previous Harvested Crop</label>
+                        <select id="crop" name="crop" required>
+                            <option value="">Select a crop</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Corn">Corn</option>
+                            <option value="Barley">Barley</option>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Flowering">Flowering</option>
+                            <option value="Sugarcane">Sugarcane</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Submit Assessment</button>
+                    <button type="reset" class="btn btn-secondary">Clear Form</button>
+                </div>
+            </form>
+
+            <!-- Result Card -->
+            <div id="resultCard" class="result-card hidden">
+                <div class="result-header">
+                    <h2>Assessment Result</h2>
+                    <button type="button" class="close-btn" onclick="closeResultCard()">X</button>
+                </div>
+                <div class="result-content">
+                    <div class="result-prediction">
+                        <p class="result-label">Prediction:</p>
+                        <p id="predictionResult" class="result-value">-</p>
+                    </div>
+                    <div class="result-confidence">
+                        <p class="result-label">Confidence:</p>
+                        <div class="confidence-bar">
+                            <div id="confidenceBar" class="confidence-fill"></div>
+                        </div>
+                        <p id="confidenceText" class="confidence-text">0%</p>
+                    </div>
+                    <div class="result-message">
+                        <p id="resultMessage" class="message-text"></p>
+                    </div>
+                    <!-- LLM Advice block -->
+                    <div id="llmAdviceBlock" class="llm-advice hidden">
+                        <p class="result-label">Gemini Advice</p>
+                        <div id="llmAdvice" class="advice-text"></div>
+                        <p id="llmStatus" class="llm-status"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/main.js' %}?v=3"></script>
+</body>
+</html>
